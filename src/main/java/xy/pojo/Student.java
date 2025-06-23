@@ -9,9 +9,9 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class Student {
+    private Long id;
     private Long StudentNumber;
     private String StudentName;
     private String StudentGender;
     private String IdCardNumber;
-    
 }

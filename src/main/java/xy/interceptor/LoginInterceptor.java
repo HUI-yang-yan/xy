@@ -3,17 +3,18 @@ package xy.interceptor;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.HandlerInterceptor;
+import xy.utils.*;
 
 public class LoginInterceptor implements HandlerInterceptor {
-    public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler) throws Exception {
-        // 从 session 里取登录标识，比如 user 对象或登录状态
-        Object user = request.getSession().getAttribute("user");
-        if (user != null) {
-            // 已登录，放行请求
-            return true;
+    public boolean preHandle(final HttpServletRequest req, final HttpServletResponse res, final Object handler) throws Exception {
+        String authHeader = req.getHeader("Authorization");
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            String token = authHeader.substring(7);
+            if (JwtUtil.validateToken(token)) { // 验证token有效性
+                return true; // 放行
+            }
         }
-        // 未登录，重定向到登录页
-        response.sendRedirect("/login");
-        return false; // 不放行请求
+        res.setStatus(401);
+        return false; // 拦截
     }
 }

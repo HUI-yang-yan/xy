@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-    // 处理所有未被捕获的异常
+     //处理所有未被捕获的异常
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiError> handleException(Exception ex) {
         ApiError error = new ApiError(500, "服务器错误", null);
