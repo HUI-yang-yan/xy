@@ -1,18 +1,46 @@
 spring:
+
   datasource:
-    url: jdbc:mysql://localhost:3306/xyDB?useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://192.168.171.129:3306/xyDB?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
     username: root
-    password: 123456
+    password: 123
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+  mail:
+    host: smtp.qq.com
+    port: 587
+    username: 2191967298@qq.com
+    password: twousvgmgmncebja  # 这是授权码，不是密码
+    protocol: smtp
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
   data:
     redis:
+      host: 192.168.171.129
       port: 6379
+      database: 0
 
 mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
   mapper-locations: classpath:mapper/**/*.xml
   type-aliases-package: com.example.model
-  configuration:
-    map-underscore-to-camel-case: true
+
 server:
   port: 8000
+
+
+
+logging:
+  level:
+    # 打印MyBatis核心包日志，显示SQL语句
+    org.mybatis: DEBUG
+    # 打印MyBatis的SQL绑定参数
+    org.apache.ibatis.logging.stdout.StdOutImpl: DEBUG
+    # 或者更常用是打印MyBatis的执行器SQL日志
+    org.apache.ibatis.executor.Executor: TRACE
+
+
 

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="xy.mapper.CourseMapper">
+
+
+    <select id="getCourseDetail" resultType="xy.dto.CourseDTO">
+        select id, course_code, course_name, teacher_id, credit, total_hours, college, semester, create_time,
+        update_time from xyDB.course
+        <where>
+            <if test="name != null and name != ''">
+                and course_name like concat("%",#{name},"%")
+            </if>
+        </where>
+        order by update_time desc
+    </select>
+    <select id="getDetailById" resultType="xy.dto.CourseDTO">
+        select id,
+               course_code,
+               course_name,
+               teacher_id,
+               credit,
+               total_hours,
+               college,
+               semester,
+               create_time,
+               update_time
+        from xyDB.course
+        where id = #{courseId}
+    </select>
+    <select id="getCourseIdsByStatus" resultType="java.lang.Long">
+        select course_id from xyDB.student_course where status = #{status}
+    </select>
+    <select id="getSumByUserId" resultType="java.lang.Long">
+        select count(*)
+        from xyDB.student_course
+        where student_id = #{userId}
+    </select>
+    <select id="getUsualAndFinalByUserId" resultType="xy.dto.GradeDTO">
+        select usual_score,final_score from xyDB.student_course where student_id = #{userId}
+    </select>
+    <select id="getScoreByCourseId" resultType="java.lang.Double">
+        select score from xyDB.student_course where course_id = #{courseId}
+    </select>
+</mapper>

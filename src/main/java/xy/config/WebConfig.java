@@ -14,8 +14,11 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new LoginInterceptor())
                 .addPathPatterns("/**")            // 拦截所有请求
                 .excludePathPatterns(
-                        "/login",                      // 登录页不拦截
+                        "/student/login/**",                   // 登录页不拦截
+                        "/register",
+                        "/email/sendCode",
                         "/css/**", "/js/**", "/images/**", "/webjars/**"); // 静态资源不拦截
+
     }
 
 }

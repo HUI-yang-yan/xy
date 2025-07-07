@@ -1,39 +1,42 @@
 package xy.service.Impl;
 
-import ch.qos.logback.core.util.MD5Util;
-import cn.hutool.crypto.digest.DigestUtil;
-import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import xy.dto.LoginDTO;
 import xy.mapper.LoginMapper;
+import xy.pojo.Student;
 import xy.service.LoginService;
-import xy.utils.SaltUtil;
+import xy.vo.LoginVO;
 
 @Service
+@RequiredArgsConstructor
 public class LoginServiceImpl implements LoginService {
 
-    @Resource
-    private LoginMapper loginMapper;
+    private final LoginMapper loginMapper;
 
-    /**
-     * 登录校验
-     * @param username
-     * @param password
-     * @return
-     */
-    public boolean login(String username, String password) {
-        String realPassword = loginMapper.loginByPassword(username);
-        String salt = loginMapper.getSaltByUsername(username);
-        if(salt == null || salt.isEmpty()) {
-            //1.判断盐是否为空,如果为空,直接返回错误
-            return false;
-        } else{
-            //2.正确,判断密码是否正确
-            String InputPassword = DigestUtil.md5Hex(password + salt);
-            return isEqual(InputPassword,realPassword);
+
+    @Override
+    public LoginVO login(LoginDTO loginDTO) {
+        Long userNum = loginDTO.getUserNum();
+        String password = loginDTO.getPassword();
+        LoginVO loginVO = loginMapper.getByUserNum(userNum);
+        if (loginVO == null||!password.equals(loginVO.getPassword())) {
+            return LoginVO.builder()
+                    .ifSuccess(false)
+                    .build();
         }
+        return LoginVO.builder()
+                .ifSuccess(true)
+                .id(loginVO.getId())
+                .password(loginVO.getPassword())
+                .name(loginVO.getName())
+                .build();
+
     }
 
-    private boolean isEqual(String inputPassword, String realPassword) {
-        return inputPassword.equals(realPassword);
+    @Override
+    public Boolean register(Student student) {
+        int s = loginMapper.insert(student);
+        return s <= 1;
     }
 }

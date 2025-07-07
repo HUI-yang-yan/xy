@@ -3,6 +3,7 @@ package xy.interceptor;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.HandlerInterceptor;
+import xy.context.BaseContext;
 import xy.utils.*;
 
 public class LoginInterceptor implements HandlerInterceptor {
@@ -11,6 +12,11 @@ public class LoginInterceptor implements HandlerInterceptor {
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
             if (JwtUtil.validateToken(token)) { // 验证token有效性
+                Long userId = JwtUtil.getUserId(token);
+                if (userId != null) {
+                    BaseContext.setCurrentId(userId);
+                    return true;
+                }
                 return true; // 放行
             }
         }

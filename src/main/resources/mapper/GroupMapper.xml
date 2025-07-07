@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="xy.mapper.GroupMapper">
+
+    <insert id="JoinGroupByGroupId">
+        INSERT INTO group_member (group_id, student_id, remark)
+        VALUES (#{groupId}, #{userId}, #{remark})
+    </insert>
+    <!-- 插入小组信息 -->
+    <insert id="addGroup" parameterType="xy.dto.GroupDTO" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `group` (course_id, group_name, group_description,
+                             leader_id, status, create_time)
+        VALUES (#{courseId}, #{groupName}, #{groupDescription},
+                #{leaderId}, #{status}, #{createTime})
+    </insert>
+    <insert id="addGroupMember" parameterType="map">
+        insert into group_member(group_id, student_id)
+        values
+        <foreach collection="studentsBasis" item="i" separator=",">
+            (#{groupId}, #{i.id})
+        </foreach>
+    </insert>
+
+    <select id="getGroupList" resultType="xy.dto.GroupDTO">
+        select id, course_id, group_name, group_description, create_time, leader_id, status
+        from `group`
+        where course_id = #{courseId}
+    </select>
+    <select id="getGroupVO" resultType="java.lang.Integer">
+        select count(*) from `group`where course_id = #{courseId} and group_name = #{groupName}
+    </select>
+    <select id="getGroupMemberByUserId" resultType="java.lang.Integer">
+        select * from xyDB.group_member where id = #{userId}
+    </select>
+
+</mapper>

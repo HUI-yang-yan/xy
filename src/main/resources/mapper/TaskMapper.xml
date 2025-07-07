@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="xy.mapper.TaskMapper">
+
+
+    <select id="getTaskDetailById" resultType="xy.dto.TaskDTO">
+        select id,
+               course_id,
+               task_title,
+               task_description,
+               task_type,
+               assigned_date,
+               due_date,
+               status,
+               max_score,
+               passing_score,
+               attachment_url,
+               teacher_id,
+               created_at,
+               updated_at,
+               remarks
+        from xyDB.task
+        where course_id = #{courseId}
+    </select>
+</mapper>

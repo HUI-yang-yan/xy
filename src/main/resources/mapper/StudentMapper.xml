@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="xy.mapper.StudentMapper">
+    <select id="getById" resultType="xy.dto.StudentBasisDTO">
+        select id,
+               student_number,
+               name,
+               gender,
+               age,
+               college,
+               major,
+               status,
+               create_time,
+               update_time
+        from xyDB.student
+        where id = #{userId}
+    </select>
+
+</mapper>

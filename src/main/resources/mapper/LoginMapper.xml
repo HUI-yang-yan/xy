@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="xy.mapper.LoginMapper">
+    <insert id="insert" parameterType="xy.pojo.Student">
+        INSERT INTO student
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="studentNumber != null">student_number,</if>
+            <if test="name != null">name,</if>
+            <if test="gender != null">gender,</if>
+            <if test="age != null">age,</if>
+            <if test="college != null">college,</if>
+            <if test="major != null">major,</if>
+            <if test="phone != null">phone,</if>
+            <if test="email != null">email,</if>
+            <if test="password != null">password,</if>
+            <if test="status != null">status,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="studentNumber != null">#{studentNumber},</if>
+            <if test="name != null">#{name},</if>
+            <if test="gender != null">#{gender},</if>
+            <if test="age != null">#{age},</if>
+            <if test="college != null">#{college},</if>
+            <if test="major != null">#{major},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="email != null">#{email},</if>
+            <if test="password != null">#{password},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <select id="getByUserNum" resultType="xy.vo.LoginVO">
+        select * from student where student_number = #{userNum}
+    </select>
+</mapper>

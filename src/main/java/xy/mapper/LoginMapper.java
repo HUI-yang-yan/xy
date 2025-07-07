@@ -1,10 +1,14 @@
 package xy.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
+import xy.pojo.Student;
+import xy.vo.LoginVO;
 
 @Mapper
 public interface LoginMapper {
-    public String loginByPassword(String username) ;
 
-    String getSaltByUsername(String username);
+
+    LoginVO getByUserNum(Long userNum);
+
+    int insert(Student student);
 }

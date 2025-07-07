@@ -3,7 +3,7 @@ package xy;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "xy")
 public class XyApplication {
 
     public static void main(String[] args) {

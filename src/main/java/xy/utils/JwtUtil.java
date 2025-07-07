@@ -3,7 +3,6 @@ package xy.utils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import xy.context.BaseContext;
 
 import java.util.Date;
 
@@ -12,20 +11,20 @@ import static xy.context.InterceptorContext.SECRET_KEY;
 
 public class JwtUtil {
 
-    //生成jwt令牌
-    public static String generateToken(String username ) {
-
+    // 生成jwt令牌
+    public static String generateToken(Long userId) {
         return Jwts.builder()
-                .setSubject(username)
+                .claim("userId", userId)
+                .setSubject(String.valueOf(userId))
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                .signWith(SignatureAlgorithm.HS256, SECRET_KEY.getBytes())
                 .compact();
     }
 
     public static boolean validateToken(String token) {
         try {
-            getClaims(token);// 解析没报错说明合法
+            getClaims(token);
             return true;
         } catch (Exception e) {
             return false;
@@ -38,8 +37,21 @@ public class JwtUtil {
 
     private static Claims getClaims(String token) {
         return Jwts.parser()
-                .setSigningKey(SECRET_KEY)
+                .setSigningKey(SECRET_KEY.getBytes())
                 .parseClaimsJws(token)
                 .getBody();
+    }
+
+    public static Long getUserId(String token) {
+        try {
+            Claims claims = Jwts.parser()
+                    .setSigningKey(SECRET_KEY.getBytes())
+                    .parseClaimsJws(token)
+                    .getBody();
+            // 假设你在创建 token 时放了 userId 字段（long 类型）
+            return claims.get("userId", Long.class);
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

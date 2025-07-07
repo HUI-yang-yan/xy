@@ -1,0 +1,15 @@
+package xy.vo;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class GroupVO {
+    private String groupName;
+    private Long courseId;
+}

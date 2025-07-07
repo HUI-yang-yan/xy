@@ -1,11 +1,16 @@
 package xy.service;
 
+import xy.dto.LoginDTO;
+import xy.pojo.Student;
+import xy.vo.LoginVO;
+
 public interface LoginService {
     /**
      * 登录校验
-     * @param username
-     * @param password
+     *
      * @return
      */
-    boolean login(String username, String password);
+    LoginVO login(LoginDTO loginDTO);
+
+    Boolean register(Student student);
 }
