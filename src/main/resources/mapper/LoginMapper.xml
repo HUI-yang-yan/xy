@@ -40,6 +40,6 @@
     </insert>
 
     <select id="getByUserNum" resultType="xy.vo.LoginVO">
-        select * from student where student_number = #{userNum}
+        select * from xyDB.student where student_number = #{userNum}
     </select>
 </mapper>

@@ -2,6 +2,7 @@ package xy.service.Impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import xy.dto.LoginDTO;
 import xy.mapper.LoginMapper;
 import xy.pojo.Student;
@@ -16,6 +17,7 @@ public class LoginServiceImpl implements LoginService {
 
 
     @Override
+    @Transactional
     public LoginVO login(LoginDTO loginDTO) {
         Long userNum = loginDTO.getUserNum();
         String password = loginDTO.getPassword();
@@ -31,7 +33,6 @@ public class LoginServiceImpl implements LoginService {
                 .password(loginVO.getPassword())
                 .name(loginVO.getName())
                 .build();
-
     }
 
     @Override

@@ -1,6 +1,7 @@
 package xy.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import xy.pojo.Student;
 import xy.vo.LoginVO;
 
@@ -8,7 +9,7 @@ import xy.vo.LoginVO;
 public interface LoginMapper {
 
 
-    LoginVO getByUserNum(Long userNum);
+    LoginVO getByUserNum(@Param("userNum") Long userNum);
 
     int insert(Student student);
 }
