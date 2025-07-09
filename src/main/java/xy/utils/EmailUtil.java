@@ -24,12 +24,12 @@ public class EmailUtil {
 
     // 发送验证码到指定邮箱，返回验证码字符串
     public String sendVerificationCode(String toEmail) {
-        //todo将验证码存储到redis
         String code = generateCode();
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
+            helper.setFrom("2191967298@qq.com"); // ✅ 重点：必须设置为你 spring.mail.username 一致
             helper.setTo(toEmail);
             helper.setSubject("【验证码】来自系统的身份校验");
             helper.setText("您的验证码是：" + code + "，有效期为5分钟，请尽快使用。", true);

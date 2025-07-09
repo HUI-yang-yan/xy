@@ -1,5 +1,6 @@
 package xy.mapper;
 
+import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import xy.dto.CourseDTO;
@@ -13,13 +14,14 @@ public interface CourseMapper {
     List<Long> getCourseIdsByStatus(Integer status);
 
     CourseDTO getDetailById(Long courseId);
-
-    List<CourseDTO> getCourseDetail(PageHomeDTO pageHomeDTO);
-
     Long getSumByUserId(Long userId);
 
     GradeDTO getUsualAndFinalByUserId(@Param("userId")Long userId);
 
     List<Double> getScoreByCourseId(@Param("courseId") Long courseId);
+
+    Page<CourseDTO> getCourseDetail(PageHomeDTO pageHomeDTO);
+
+    List<CourseDTO> pageQuery(PageHomeDTO pageHomeDTO);
 }
 

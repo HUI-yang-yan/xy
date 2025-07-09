@@ -6,16 +6,18 @@
 <mapper namespace="xy.mapper.CourseMapper">
 
 
-    <select id="getCourseDetail" resultType="xy.dto.CourseDTO">
-        select id, course_code, course_name, teacher_id, credit, total_hours, college, semester, create_time,
-        update_time from xyDB.course
-        <where>
-            <if test="name != null and name != ''">
-                and course_name like concat("%",#{name},"%")
-            </if>
-        </where>
-        order by update_time desc
-    </select>
+<!--    <select id="getCourseDetail" resultType="xy.dto.CourseDTO" parameterType="xy.dto.PageHomeDTO">-->
+<!--        select id, course_code, course_name, teacher_id, credit, total_hours, college, semester, create_time, update_time-->
+<!--        from xyDB.course-->
+<!--        <where>-->
+<!--            <if test="name != null and name != ''">-->
+<!--                and course_name like concat('%', #{name}, '%')-->
+<!--            </if>-->
+<!--        </where>-->
+<!--        order by update_time desc-->
+<!--        limit #{offset}, #{pageSize}-->
+<!--    </select>-->
+
     <select id="getDetailById" resultType="xy.dto.CourseDTO">
         select id,
                course_code,
@@ -43,5 +45,24 @@
     </select>
     <select id="getScoreByCourseId" resultType="java.lang.Double">
         select score from xyDB.student_course where course_id = #{courseId}
+    </select>
+    <select id="getCourseDetail" resultType="xy.dto.CourseDTO">
+        select id, course_code, course_name, teacher_id, credit, total_hours, college, semester, create_time, update_time
+        from xyDB.course
+        <where>
+            <if test="name != null and name != ''">
+                and course_name like concat('%', #{name}, '%')
+            </if>
+        </where>
+        order by update_time desc
+    </select>
+    <select id="pageQuery" resultType="xy.dto.CourseDTO">
+        select * from xyDB.course
+        <where>
+            <if test="name != null and name != ''">
+                course_name like concat('%', #{name}, '%')
+            </if>
+        </where>
+        order by update_time desc
     </select>
 </mapper>

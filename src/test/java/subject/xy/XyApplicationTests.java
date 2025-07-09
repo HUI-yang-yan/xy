@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import xy.XyApplication;
+import xy.utils.EmailUtil;
 
 @SpringBootTest(classes = XyApplication.class)
 class XyApplicationTests {
@@ -16,6 +17,9 @@ class XyApplicationTests {
 
     @Autowired
     private StringRedisTemplate redisTemplate;
+
+    @Autowired
+    private EmailUtil emailUtil;
 
     @Test
     @PostConstruct
@@ -29,4 +33,8 @@ class XyApplicationTests {
         }
     }
 
+    @Test
+    public void testEmail() {
+        emailUtil.sendVerificationCode("2905176254@qq.com");
+    }
 }

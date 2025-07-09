@@ -19,7 +19,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class LoginController {
 
-
     private final LoginService loginService;
 
     @PostMapping
@@ -28,10 +27,12 @@ public class LoginController {
 //        1.先校验用户名和密码是否正确
         LoginVO loginVO = loginService.login(loginDTO);
         if(loginVO.getIfSuccess()) {
+            System.out.println(111);
             //2.1.如果正确,返回jwt
             String token = JwtUtil.generateToken(loginVO.getId());
 
             Map<String,String> map = new HashMap<>();
+            System.out.println(token);
             map.put("token",token);
             return Result.success(map);
         } else {

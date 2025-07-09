@@ -22,5 +22,11 @@
         </set>
         WHERE id = #{id}
     </update>
+    <select id="getOriginalInformationById" resultType="xy.dto.MyselfDTO">
+        select id ,email,password,phone from xyDB.student where id = #{userId}
+    </select>
+    <select id="getOriginalInformationByEmail" resultType="xy.dto.MyselfDTO">
+        select id ,email,password,phone from xyDB.student where email = #{email}
+    </select>
 
 </mapper>

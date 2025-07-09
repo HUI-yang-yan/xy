@@ -1,10 +1,9 @@
 package xy.service.Impl;
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeanUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Service;
@@ -23,6 +22,7 @@ import static xy.context.RedisContext.*;
 
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class CourseServiceImpl implements CourseService {
     private final StringRedisTemplate redisTemplate;
@@ -46,13 +46,28 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @Transactional
     public PageResult pageQueryCourse(PageHomeDTO pageHomeDTO) {
-        Page<Object> page = PageHelper.startPage(pageHomeDTO.getPageNo(), pageHomeDTO.getPageSize());
-        List<CourseDTO> list = courseMapper.getCourseDetail(pageHomeDTO);
+/*
+            Integer offset = ( (pageHomeDTO.getPageNo() - 1) * pageHomeDTO.getPageSize());
+        List<CourseDTO> list = null;
+        try {
+            list = courseMapper.getCourseDetail((pageHomeDTO.getPageSize()),offset,pageHomeDTO.getName());
+        } catch (Exception e) {
+            new RuntimeException(e);e.printStackTrace(); // 直接打印到控制台
+            // 或者用日志打印
+            log.error("出现异常", e);
+        }
+        System.out.println("hhhh");
+*/
+        PageHelper.startPage(pageHomeDTO.getPageNo(), pageHomeDTO.getPageSize());
+        List<CourseDTO> list  = courseMapper.pageQuery(pageHomeDTO);
         for (CourseDTO courseDTO : list) {
             insertTeacherName(courseDTO);
         }
+
         PageInfo<CourseDTO> pageInfo = new PageInfo<>(list);
+
         return new PageResult(pageInfo.getTotal(), pageInfo.getList());
     }
 
